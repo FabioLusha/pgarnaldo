@@ -5,6 +5,7 @@ public class AstronomicalObject {
 	private int iD;
 	private String name;
 	private int mass;
+	
 	//Dichiaro un nuovo oggetto Coordinate usando il costruttore in quanto deriva da una classe
 	private Coordinate position = new Coordinate();
 	
@@ -17,8 +18,7 @@ public class AstronomicalObject {
 	}
 	
 	public AstronomicalObject() {
-		//facendo this() richiamo il costrutture precedente e gli assegno i valori
-		this(0, "alfa", 0, 0, 0 );
+		this(0, "alfa", 0, 0, 0 );//facendo this() richiamo il costrutture precedente e gli assegno i valori
 	}
 	
 	public AstronomicalObject(String name, int mass) {

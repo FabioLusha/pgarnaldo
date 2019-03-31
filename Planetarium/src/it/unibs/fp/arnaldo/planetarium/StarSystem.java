@@ -27,11 +27,20 @@ public class StarSystem {
 		return orbitatingPlanet;
 	}
 
-	public void setOrbitatingPlanet(LinkedList<Planet> orbitatingPlanet) {
-		this.orbitatingPlanet = orbitatingPlanet;
+	public void setOrbitatingPlanet(Planet orbitatingPlanet) {
+		this.orbitatingPlanet.add(orbitatingPlanet);
 	}
 	
-	
-	
+	/*questo metodo serve a verificare che la lista sia vuota; ho predisposto questo metodo
+	 *  in qunto avendo dichirato un costrutture che inizialliza null e il metodo specifico 
+	 *  per le liste .isEmpty() da problemi se riscontra un valore null
+	 */
+	public boolean hasNoPlanet() {
+		boolean c;
+		if(orbitatingPlanet == null)
+			return false;
+		else
+			return  c = orbitatingPlanet.isEmpty();
+	}
 	
 }

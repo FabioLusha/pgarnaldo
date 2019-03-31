@@ -1,38 +1,86 @@
 package it.unibs.fp.arnaldo.planetarium;
 
 import it.unibs.fp.mylib.*;
-
-public class PlanetariumMain {
 	
-	//metodo per prendere l'input di una stella, visto che la stella � una sola l'iD e la posizione la decidiamo noi
-	public static Star insertStar(String messaggio, int _id) {
-		String name = InputDati.leggiStringaNonVuota(messaggio + " the name of your star: ");
-		int mass = InputDati.leggiIntero(messaggio + " the mass: ");
-		return new Star(_id, name, mass);
+public class PlanetariumMain {
+	private static final String MENU = "MENU PRINCIPALE";
+	private static final String CHOICES[] = {"Inserire un pianeta", "Inserire una luna","Eliminare un pianeta", "Eliminarea una luna", "uscire"};
+	private static final String WARNING1 = "ATTENZIONE! Non si può inserire una luna senza aver prima inserito un pianeta";
+	private static final String WARNING2 = "ATTENZIONE! Non ci sono %s da eliminare";
+	
+	public static void main(String[] args) {
+		StarSystem alfa = new StarSystem();
+		System.out.println("Ciao! Iniziamo con l'inserimento dati della stella del vostro Sistema stellare");
+		alfa.setStar(insertStar());
+		
+		
+		int control1 = 0; //variabile di controllo per il menu
+		MyMenu menu = new MyMenu(MENU, CHOICES);
+		
+		do {
+			control1 = menu.scegli();
+			switch (control1) {
+			case 1:
+				break;
+			case 2:
+				
+				if( alfa.hasNoPlanet() == false)
+					System.out.println(WARNING1);
+				else {
+					//giveID( alfa);
+				}
+				break;
+
+			default:
+				break;
+			}
+		}while(control1 != 0);
+		
 	}
 	
-	public static Planet insertPlanet(String messaggio, int _id, int x, int y) {
-		String name = InputDati.leggiStringaNonVuota(messaggio + " the name of your star: ");
-		int mass = InputDati.leggiIntero(messaggio + " the mass: ");
-		x = InputDati.leggiIntero(messaggio + " the X coordinate: ");
-		y = InputDati.leggiIntero(messaggio + " the y coordinate: ");
+	//METODO PER RICEVERE UN ID DIVERSO DAI PRECEDENTI
+	private static int giveID(StarSystem alfa) {
+		int j = 0;
+		/*ciclo che itera per tutta la dimensione della lista, il +1 serve nel caso la lista sia piena e tutti
+		 * i primi n numeri ( n = dimensione lista) siano gli id delgi oggetti della lista
+		 */
+		for(j = 0; j < alfa.getOrbitatingPlanet().size() + 1; j++) {
+		Planet temp = new Planet();
+		temp = alfa.getOrbitatingPlanet().get(j);
+		int tempID = temp.getiD();
+		if(j == tempID)
+			continue;
+		else
+			break;
+	}
+		return j;
+		
+	}
+	
+	/*metodo per prendere l'input di una stella, visto che la stella è una sola l'iD e le coordinate
+	 * sono settate a 0
+	 */
+	
+	public static Star insertStar() {
+		String name = InputDati.leggiStringaNonVuota("Inserisci il nome della stella: ");
+		int mass = InputDati.leggiIntero("Inserisci la massa della stella: ");
+		return new Star(0, name, mass, 0, 0);
+	}
+	
+	public static Planet insertPlanet(int _id) {
+		String name = InputDati.leggiStringaNonVuota("Inserisci il nome: ");
+		int mass = InputDati.leggiIntero("Inserisci la massa: ");
+		int x = InputDati.leggiIntero("Inserisci la coordinta X: ");
+		int y = InputDati.leggiIntero("Inserisci la coordinata Y: ");
 		return new Planet(_id, name, mass, x, y);
 	}
 	
-	
-	public static void main(String[] args) {
-		int i = 0;
-		StarSystem alfa = new StarSystem();
-		String control1 = "no";
-		alfa.setStar(insertStar("Insert ", i));
-		control1 = InputDati.leggiStringaNonVuota("Vuoi aggiungere pianeti (yes/no)? ");
-		
-		if(control1.equalsIgnoreCase("yes")){
-			String control2 = "no";
-			do {
-			 
-			}while(control2.equalsIgnoreCase("yes"));
-		}
-		
+	public static Moon insertMoon(int _id) {
+		String name = InputDati.leggiStringaNonVuota("Inserisci il nome: ");
+		int mass = InputDati.leggiIntero("Inserisci la massa: ");
+		int x = InputDati.leggiIntero("Inserisci la coordinta X: ");
+		int y = InputDati.leggiIntero("Inserisci la coordinata Y: ");
+		return new Moon(_id, name, mass, x, y);
 	}
 }
+

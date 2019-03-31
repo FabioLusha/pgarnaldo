@@ -14,4 +14,8 @@ public class Planet extends AstronomicalObject {
 		super(iD, name, mass, x, y);
 	}
 	
+	public Planet() {
+		super();
+	}
+	
 }
