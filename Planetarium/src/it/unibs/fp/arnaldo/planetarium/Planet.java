@@ -14,11 +14,5 @@ public class Planet extends AstronomicalObject {
 		super();
 	}
 	
-	public String planetToString() {
-		return "ID: " + super.getiD()+ "\nNome: " + super.getName()+
-		"\nMassa: " + super.getMass() +
-		"\nCoordinata X: " + super.getPosition().getX() +
-		"\nCoordinata Y: " + super.getPosition().getY();
-	}
 	
 }

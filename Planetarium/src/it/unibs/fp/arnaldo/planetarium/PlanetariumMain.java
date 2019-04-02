@@ -4,7 +4,7 @@ import it.unibs.fp.mylib.*;
 	
 public class PlanetariumMain {
 	private static final String MENU = "MENU PRINCIPALE";
-	private static final String CHOICES[] = {"Inserire un pianeta", "Inserire una luna","Eliminare un pianeta", "Eliminare una luna"};
+	private static final String OPTIONS[] = {"Inserire un pianeta", "Inserire una luna","Eliminare un pianeta", "Eliminare una luna"};
 	private static final String WARNING1 = "\nATTENZIONE! Non si può inserire una luna senza aver prima inserito un pianeta\n";
 	private static final String WARNING2 = "\nATTENZIONE! Non ci sono %s da eliminare\n";
 	private static final String WARNING3 = "\nATTENZIONE! Errore nell'inserimento";
@@ -17,41 +17,47 @@ public class PlanetariumMain {
 		
 		//INIZIO MENU - interazione con l'utente
 		int control1 = 0; //variabile di controllo per il menu
-		MyMenu menu = new MyMenu(MENU, CHOICES);
-	
+		MyMenu menu = new MyMenu(MENU, OPTIONS);
 		do {
 			control1 = menu.scegli();
 			switch (control1) {
 			case 1:
-				int i = giveID( alfa);
-				if(alfa.setOrbitatingPlanet(insertPlanet(i))) {
+				if(alfa.addPlanet(insertAstroObject(alfa.givePlanetID()))) {
 					System.out.println(SUCCESSFUL);
-					alfa.showPlanet();
+					alfa.showPlanets();
 				}
 				else
 					System.out.println(WARNING3);
 				break;
 			case 2:
-		
-				if( alfa.hasPlanet() == false)
+				if( alfa.getMatrixOfOb().isEmpty())
 					System.out.println(WARNING1);
 				else {
-					//creare metodo per far vedere i pianeti della lista rea
+					alfa.showPlanets();
+					int t = InputDati.leggiIntero("\nAttorno a quale pianeta orbita questa luna? (inserisci l'index): ");
+					alfa.addMoon(t, insertAstroObject(alfa.giveMoonID()));
 				}
+				break;
 			case 3:
 				
-				if( alfa.hasPlanet() == false)
+				if( alfa.getMatrixOfOb().isEmpty()) {
 					System.out.println(String.format(WARNING2, "pianeti"));
+				}
 				else {
-					
+					alfa.showPlanets();
+					int p = InputDati.leggiIntero("\nQuale pianeta vuoi eliminare? (inica l'Index)");
+					alfa.removePlanet(p);
 				}
 				break;
 			case 4:
-				
-				if( alfa.hasPlanet() == false)
+				if( alfa.getMatrixOfOb().size() < 1 )
 					System.out.println(String.format(WARNING2, "lune"));
 				else {
-					
+					alfa.showMoons();
+					System.out.println("Quale luna vuoi eliminare? (inica l'Index)");
+					int a = InputDati.leggiIntero("Index sinistro: ");
+					int b = InputDati.leggiIntero("Index destro: ");
+					alfa.removeMoon(a, b);
 				}
 				break;
 
@@ -62,24 +68,7 @@ public class PlanetariumMain {
 		
 	}
 	
-	//METODO PER RICEVERE UN ID DIVERSO DAI PRECEDENTI
-	private static int giveID(StarSystem alfa) {
-		int j = 0;
-		/*ciclo che itera per tutta la dimensione della lista, il +1 serve nel caso la lista sia piena e tutti
-		 * i primi n numeri ( n = dimensione lista) siano gli id delgi oggetti della lista (sarebbe andato bene
-		 * anche un <= ma credo che in questo modo sia più leggibile
-		 */
-		for(j = 0; j < alfa.mySize(); j++) {
-		Planet temp = new Planet();
-		temp = alfa.getOrbitatingPlanet(j);
-		int tempID = temp.getiD();
-		if(j == tempID)
-			continue;
-		else
-			break;
-		}
-		return j;		
-	}
+
 	
 	/*metodo per prendere l'input di una stella, visto che la stella è una sola l'iD e le coordinate
 	 * sono settate a 0
@@ -91,20 +80,12 @@ public class PlanetariumMain {
 		return new Star(0, name, mass, 0, 0);
 	}
 	
-	public static Planet insertPlanet(int _id) {
+	public static AstronomicalObject insertAstroObject(int _id) {
 		String name = InputDati.leggiStringaNonVuota("Inserisci il nome: ");
 		int mass = InputDati.leggiIntero("Inserisci la massa: ");
-		int x = InputDati.leggiIntero("Inserisci la coordinta X: ");
-		int y = InputDati.leggiIntero("Inserisci la coordinata Y: ");
-		return new Planet(_id, name, mass, x, y);
+		int x = InputDati.leggiIntero("Inserisci la coordinta X (relativa all'oggetto astronomico a cui orbita): ");
+		int y = InputDati.leggiIntero("Inserisci la coordinata Y (relativa all'oggetto astronomico a cui orbita): ");
+		return new AstronomicalObject(_id, name, mass, x, y);
+	
 	}
-	/*
-	public static Moon insertMoon(int _id) {
-		String name = InputDati.leggiStringaNonVuota("Inserisci il nome: ");
-		int mass = InputDati.leggiIntero("Inserisci la massa: ");
-		int x = InputDati.leggiIntero("Inserisci la coordinta X: ");
-		int y = InputDati.leggiIntero("Inserisci la coordinata Y: ");
-		return new Moon(_id, name, mass, x, y, planet);
-	}*/
 }
-

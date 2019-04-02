@@ -57,6 +57,12 @@ public class AstronomicalObject {
 		this.position = position;
 	}
 	
+	public String astronomicalObjectString() {
+		return "ID: " + iD + "\nNome: " + name+
+		"\nMassa: " + mass +
+		"\nCoordinata X: " + position.getX() +
+		"\nCoordinata Y: " + position.getY();
+	}
 	
 	
 	
