@@ -1,13 +1,9 @@
 package it.unibs.fp.arnaldo.planetarium;
-import java.util.*;
 
 public class Planet extends AstronomicalObject {
-
-	private LinkedList<Moon> orbitatingMoon = new LinkedList<Moon>();
 	
 	public Planet(int iD, String name, int mass, int x, int y, Moon newMoon) {
 		super(iD, name, mass, x, y);
-		orbitatingMoon.add(newMoon);
 	}
 	
 	public Planet(int iD, String name, int mass, int x, int y) {
@@ -16,6 +12,13 @@ public class Planet extends AstronomicalObject {
 	
 	public Planet() {
 		super();
+	}
+	
+	public String planetToString() {
+		return "ID: " + super.getiD()+ "\nNome: " + super.getName()+
+		"\nMassa: " + super.getMass() +
+		"\nCoordinata X: " + super.getPosition().getX() +
+		"\nCoordinata Y: " + super.getPosition().getY();
 	}
 	
 }

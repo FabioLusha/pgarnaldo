@@ -4,7 +4,7 @@ import it.unibs.fp.mylib.*;
 	
 public class PlanetariumMain {
 	private static final String MENU = "MENU PRINCIPALE";
-	private static final String CHOICES[] = {"Inserire un pianeta", "Inserire una luna","Eliminare un pianeta", "Eliminarea una luna"};
+	private static final String CHOICES[] = {"Inserire un pianeta", "Inserire una luna","Eliminare un pianeta", "Eliminare una luna"};
 	private static final String WARNING1 = "\nATTENZIONE! Non si può inserire una luna senza aver prima inserito un pianeta\n";
 	private static final String WARNING2 = "\nATTENZIONE! Non ci sono %s da eliminare\n";
 	private static final String WARNING3 = "\nATTENZIONE! Errore nell'inserimento";
@@ -24,8 +24,10 @@ public class PlanetariumMain {
 			switch (control1) {
 			case 1:
 				int i = giveID( alfa);
-				if(alfa.setOrbitatingPlanet(insertPlanet(i)))
+				if(alfa.setOrbitatingPlanet(insertPlanet(i))) {
 					System.out.println(SUCCESSFUL);
+					alfa.showPlanet();
+				}
 				else
 					System.out.println(WARNING3);
 				break;
@@ -34,7 +36,7 @@ public class PlanetariumMain {
 				if( alfa.hasPlanet() == false)
 					System.out.println(WARNING1);
 				else {
-					//creare metodo per far vedere i pianeti della lista
+					//creare metodo per far vedere i pianeti della lista rea
 				}
 			case 3:
 				
@@ -96,13 +98,13 @@ public class PlanetariumMain {
 		int y = InputDati.leggiIntero("Inserisci la coordinata Y: ");
 		return new Planet(_id, name, mass, x, y);
 	}
-	
+	/*
 	public static Moon insertMoon(int _id) {
 		String name = InputDati.leggiStringaNonVuota("Inserisci il nome: ");
 		int mass = InputDati.leggiIntero("Inserisci la massa: ");
 		int x = InputDati.leggiIntero("Inserisci la coordinta X: ");
 		int y = InputDati.leggiIntero("Inserisci la coordinata Y: ");
-		return new Moon(_id, name, mass, x, y);
-	}
+		return new Moon(_id, name, mass, x, y, planet);
+	}*/
 }
 

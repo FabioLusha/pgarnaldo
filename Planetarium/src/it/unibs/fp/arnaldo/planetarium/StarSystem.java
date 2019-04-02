@@ -51,5 +51,12 @@ public class StarSystem {
 		else
 			return orbitatingPlanet.size();
 	}
+	//fai vedere il pianeta e il relativo indice nella lista
+	public void showPlanet() {
+		for(Planet item : orbitatingPlanet) {
+			System.out.println("Index: " + orbitatingPlanet.indexOf(item));
+			System.out.println(item.planetToString());
+		}
+	}
 	
 }
