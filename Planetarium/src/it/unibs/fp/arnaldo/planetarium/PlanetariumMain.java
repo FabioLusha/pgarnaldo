@@ -4,7 +4,7 @@ import it.unibs.fp.mylib.*;
 	
 public class PlanetariumMain {
 	private static final String MENU = "MENU PRINCIPALE";
-	private static final String OPTIONS[] = {"Inserire un pianeta", "Inserire una luna","Eliminare un pianeta", "Eliminare una luna"};
+	private static final String OPTIONS[] = {"Inserire un pianeta", "Inserire una luna","Eliminare un pianeta", "Eliminare una luna", "Calcola il centro di massa"};
 	private static final String WARNING1 = "\nATTENZIONE! Non si può inserire una luna senza aver prima inserito un pianeta\n";
 	private static final String WARNING2 = "\nATTENZIONE! Non ci sono %s da eliminare\n";
 	private static final String WARNING3 = "\nATTENZIONE! Errore nell'inserimento";
@@ -60,7 +60,9 @@ public class PlanetariumMain {
 					alfa.removeMoon(a, b);
 				}
 				break;
-
+			case 5:
+				System.out.println(alfa.centerOfMass());
+				break;
 			default:
 				break;
 			}
@@ -83,8 +85,8 @@ public class PlanetariumMain {
 	public static AstronomicalObject insertAstroObject(int _id) {
 		String name = InputDati.leggiStringaNonVuota("Inserisci il nome: ");
 		int mass = InputDati.leggiIntero("Inserisci la massa: ");
-		int x = InputDati.leggiIntero("Inserisci la coordinta X (relativa all'oggetto astronomico a cui orbita): ");
-		int y = InputDati.leggiIntero("Inserisci la coordinata Y (relativa all'oggetto astronomico a cui orbita): ");
+		int x = InputDati.leggiIntero("Inserisci la coordinta X: ");
+		int y = InputDati.leggiIntero("Inserisci la coordinata Y: ");
 		return new AstronomicalObject(_id, name, mass, x, y);
 	
 	}

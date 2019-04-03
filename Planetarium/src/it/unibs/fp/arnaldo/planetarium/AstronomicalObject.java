@@ -18,7 +18,7 @@ public class AstronomicalObject {
 	}
 	
 	public AstronomicalObject() {
-		this(0, "alfa", 0, 0, 0 );//facendo this() richiamo il costrutture precedente e gli assegno i valori
+		this(-1, "alfa", 0, 0, 0 );//facendo this() richiamo il costrutture precedente e gli assegno i valori
 	}
 	
 	public AstronomicalObject(String name, int mass) {

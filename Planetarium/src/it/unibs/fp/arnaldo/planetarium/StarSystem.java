@@ -54,7 +54,7 @@ public class StarSystem {
 	
 	//rimuovo solo nella posizione 0 perchè tutti i pianeti si trovano nella posizione 0
 	public void removePlanet(int t) {
-		this.matrixOfOb.get(t).remove(0);
+		this.matrixOfOb.get(t).set(0, new AstronomicalObject());
 	}
 	//a indica l'indice di riga ( i pianeti), b la cella della riga a dove si trova la luna da eliminare
 	public void removeMoon(int a, int b) {
@@ -68,8 +68,10 @@ public class StarSystem {
 	public void showPlanets() {
 		System.out.println("\nLista dei pianeti disponibili:");
 		for(LinkedList<AstronomicalObject> item : matrixOfOb) {
-			System.out.println("\nIndex: " + matrixOfOb.indexOf(item));
-			System.out.println(item.get(0).astronomicalObjectString());
+			if(item.get(0).getiD() != -1) {
+				System.out.println("\nIndex: " + matrixOfOb.indexOf(item));
+				System.out.println(item.get(0).astronomicalObjectString());
+			}
 		}
 	}
 	
@@ -120,12 +122,26 @@ public class StarSystem {
 		for(i = 0; i < matrixOfOb.size(); i++) {
 			for(j =1; j < matrixOfOb.get(i).size(); j++) {
 				AstronomicalObject temp = new AstronomicalObject();
-				temp = matrixOfOb.get(j).get(j);
+				temp = matrixOfOb.get(i).get(j);
 				int tempID = temp.getiD();
 				if(k == tempID)
 					k++;
 			}	
 		}
 		return k;	
+	}
+	
+	public String centerOfMass() {
+		int f, d, m = 0, py = 0, px = 0;
+		for( f = 0; f < matrixOfOb.size(); f++) {
+			for(d = 0; d < matrixOfOb.get(f).size(); d++) {
+				m += matrixOfOb.get(f).get(d).getMass();
+				px += (matrixOfOb.get(f).get(d).getPosition().getX() * matrixOfOb.get(d).get(f).getMass());
+				py += (matrixOfOb.get(f).get(d).getPosition().getY() * matrixOfOb.get(d).get(f).getMass());
+			}
+		}
+		m += star.getMass();
+		return "Massa totale: " + m + "\nMedie pesate: (" + px + " , " + py + ")" + 
+				"\nIl centro di massa del sistema ha coordinate: (" + px/m + " , " + py/m + ")";
 	}
 }
