@@ -7,13 +7,13 @@ import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamReader;
 
 public class Persona {
-	String cognome;
-	String nome;
-	char sesso;
-	int giornoNascita;
-	int meseNascita;
-	int annnoNascita = -1;
-	Comune luogoNascita = new Comune();
+	private String cognome;
+	private String nome;
+	private char sesso;
+	private int giornoNascita;
+	private int meseNascita;
+	private int annnoNascita = -1;
+	private Comune luogoNascita = new Comune();
 	
 	static ArrayList<Persona> listaPersone = new ArrayList<Persona>();
 	
@@ -90,6 +90,11 @@ public class Persona {
 	public void setAnnnoNascita(int annnoNascita) {
 		this.annnoNascita = annnoNascita;
 	}
+	
+	public String getDataNascita() {
+		String s = "%02d-%02d-%d";
+		return String.format(s, this.giornoNascita, this.meseNascita, this.annnoNascita);
+	}
 
 	public Comune getLuogoNascita() {
 		return luogoNascita;
@@ -118,7 +123,7 @@ public class Persona {
 		String filePath = "inputPersone.xml";
 			try {
 				xmlif = XMLInputFactory.newInstance();
-				xmlr = xmlif.createXMLStreamReader(XMLReader.class.getResourceAsStream(filePath));
+				xmlr = xmlif.createXMLStreamReader(Main.class.getResourceAsStream(filePath));
 			}
 			catch (Exception e) {
 				System.out.println("Errore nell'inizializzazione del reader:");

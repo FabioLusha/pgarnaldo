@@ -67,7 +67,7 @@ public class Comune {
 	String filePath = "comuni.xml";
 		try {
 			xmlif = XMLInputFactory.newInstance();
-			xmlr = xmlif.createXMLStreamReader(XMLReader.class.getResourceAsStream(filePath));
+			xmlr = xmlif.createXMLStreamReader(Main.class.getResourceAsStream(filePath));
 		}
 		catch (Exception e) {
 			System.out.println("Errore nell'inizializzazione del reader:");
