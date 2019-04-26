@@ -10,18 +10,17 @@ package it.unibs.fp.codFisc;
  *
  */
 public class CodiceFiscale {
-	
+
 	public static final int COSTANTE_AUMENTO_GIORNO_NASCITA_DONNE = 40;
 	public static final int LUNGHEZZA_NOME = 3;
 	public static final int LUNGHEZZA_CF = 16;
 	public static final int LUNGHEZZA_VALORI_CIN = 26;
-	public static final int POSIZIONE_SESSO = 8;
-	
+
 	/**
 	 * i valori attribuiti ai caratteri dispari del codice fiscale. Ottenuti da Wikipedia.
 	 */
 	private static final int[] VALORI_CIN_DISPARI = {1,0,5,7,9,13,15,17,19,21,2,4,18,20,11,3,6,8,12,14,16,10,22,25,24,23};
-	
+
 	/**
 	 * metodo che contolla la validità della codifica di un codice fiscale
 	 * @param il codice fiscale da controllare
@@ -77,31 +76,29 @@ public class CodiceFiscale {
 					break;
 			}
 		}
-		
+
 		int giornoNascita = Integer.parseInt(cf.substring(9, 11));
 		int annoNascita = Integer.parseInt(cf.substring(6, 8));
 		String meseNascita = cf.substring(8, 9);
-		
+
 		/**
 		 * controllo se l'anno è bisesto, in caso affermativo la durata di febbraio diventa di 29gg
 		 */
 		Anno.controlloSeBisesto(annoNascita);
-		
+
 		/**
 		 *con il metodo Anno.valueOf("String") richiamo la costante enum che coincide con la stringa data in input.
 		 *Successivamete con .getDurata ottengo la durata del suddetto mese tenendo conto anche della costante di aumento
 		 *per le donne, cioè tengo conto che la data del giorno di nascita delle donne è incrementata di 40
 		 */
 		int durataMese = Anno.valueOf(meseNascita).getDurata();
-		if(cf.charAt(POSIZIONE_SESSO) == 'M' && giornoNascita > durataMese) 
+		if( giornoNascita > durataMese + COSTANTE_AUMENTO_GIORNO_NASCITA_DONNE)
 				return false;
-		else if(cf.charAt(POSIZIONE_SESSO) == 'F' && giornoNascita > (durataMese + COSTANTE_AUMENTO_GIORNO_NASCITA_DONNE) )
-			return false;
-		else 
+		else
 			/**
 			 * controllo che la codifica del cognome sia stata eseguita correttamente, in caso sffermativo passo
 			 * al controllo della codifica del cognome. Se anche quest'ultimo caso è positivo eseguo il controllo
-			 * sul caratter di controllo, ovvero il CIN, con il metodo controlloCaratterCIN(char) che ritorna un 
+			 * sul caratter di controllo, ovvero il CIN, con il metodo controlloCaratterCIN(char) che ritorna un
 			 * valore booleano
 			 */
 			if(controlloCodificaNome_Cognome(cf.substring(0, 3)))
@@ -109,7 +106,7 @@ public class CodiceFiscale {
 					return controlloCarattereCIN(cf.charAt(15), cf);
 		return false;
 	}
-	
+
 	/**
 	 * Controllo se un carattere di input è una lettera dell'alfabeto
 	 * @param character
@@ -119,23 +116,23 @@ public class CodiceFiscale {
 	{
 		if( character > 64 && character < 91)
 			return true;
-		else 
+		else
 			return false;
 	}
-	
+
 	/**
 	 * Controllo se un carattere di input è di tipo numerico
 	 * @param character
 	 * @return true se è si tratta di un carattere numerico, false altrimenti
 	 */
-	public static boolean isNumber(char character) 
+	public static boolean isNumber(char character)
 	{
 		if( character > 47 && character < 58)
 			return true;
 		else
 			return false;
 	}
-		
+
 		/**
 		 * Controllo se il carattere del codice fiscale che dovrebbe simboleggiare il mese di nasicta sia tra i carattere alfabetici ammissibili
 		 * @param carattere alfabetico da verificare
@@ -151,7 +148,7 @@ public class CodiceFiscale {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * contorllo se un dato carattere è una consonante
 	 * @param c
@@ -164,7 +161,7 @@ public class CodiceFiscale {
 		else
 			return false;
 	}
-	
+
 	/**
 	 * il metodo esegue un controllo sul carattere di controllo semplicemente confrontando qullo presente nel CF
 	 * di input con quello generato dall'algoritmo di questa classe. se i 2 valori coincidono ritorno true, altrimenti false
@@ -182,7 +179,7 @@ public class CodiceFiscale {
 		else
 			return false;
 	}
-	
+
 	/**
 	 * Controlla che le vocali non compaiano prima delle consonanti
 	 * @param nome o cognome
@@ -195,10 +192,10 @@ public class CodiceFiscale {
 			return false;
 		else if(!isConsonante(nome.charAt(1))  && isConsonante(nome.charAt(2)))
 			return false;
-		else 
+		else
 			return true;
 	}
-	
+
 	/**
 	 * genero la codifica del cognome prendeno prima le consonanti nell'ordine in cui compaiono.
 	 * se quest'ultime sono insufficienti prendo anche le vocali, nell'ordine in cui compaiono.
@@ -207,7 +204,7 @@ public class CodiceFiscale {
 	 * @param cog_nome
 	 * @return
 	 */
-	public static String codificaCognome(String cog_nome) 
+	public static String codificaCognome(String cog_nome)
 	{
 		String cogNome = cog_nome.toUpperCase();
 		String cog_nome_codificato = "";
@@ -225,17 +222,17 @@ public class CodiceFiscale {
 					cog_nome_codificato += cogNome.charAt(i);
 					j++;
 				}
-			}	
+			}
 		}
-		
-		if(cogNome.length() < LUNGHEZZA_NOME) 
+
+		if(cogNome.length() < LUNGHEZZA_NOME)
 			for(int i = 0; i < (LUNGHEZZA_NOME - cogNome.length()); i++) {
 				cog_nome_codificato += "X";
 				j++;
 			}
 		return cog_nome_codificato;
 	}
-	
+
 	/**
 	 * Se i ln numero di consonanti è uguale o maggiore di 4, il metodo ritorna le consonanti in posizioni 1, 3 e 4.
 	 * in caso negativo, si procede come la codifica del cognome
@@ -249,28 +246,28 @@ public class CodiceFiscale {
 			if(isConsonante(nome.charAt(i))) {
 				consonanti[numConsonanti] = nome.charAt(i);
 				numConsonanti++;
-			}	
+			}
 		}
-		
+
 		if(numConsonanti > 3) {
 			String nomeCodificato = String.valueOf(consonanti[0]) + consonanti[2] + consonanti[3];
 			return nomeCodificato;
 		}
-		
+
 		return codificaCognome(nome);
 	}
-	
-	
+
+
 	/**
 	 * ritorna le ulrime 2 cifre dell'anno
 	 * @param anno
 	 * @return String
 	 */
-	public static String codificaAnno(int anno) 
+	public static String codificaAnno(int anno)
 	{
 		return  String.valueOf(anno).substring(2, 4);
 	}
-	
+
 	/**
 	 * in base al numero del mese lo confronta con l'ordinal della classe anno.
 	 * @param mese
@@ -289,11 +286,11 @@ public class CodiceFiscale {
 		}
 		return "00";
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * @param giorno
-	 * @param sesso, per poter determinare se sommare il giorno di 40 
+	 * @param sesso, per poter determinare se sommare il giorno di 40
 	 * @return il giorno in 2 cifre
 	 */
 	public static String codificaGiorno(int giorno, char sesso)
@@ -304,13 +301,13 @@ public class CodiceFiscale {
 		else
 			return String.format(tmp, (giorno + COSTANTE_AUMENTO_GIORNO_NASCITA_DONNE));
 	}
-	
+
 	/**
 	 * algoritmo per generare il carattere di controllo, ovvero il CIN
 	 * @param cfNonVerificato, cioè il codice fiscale privo del caratter di controllo
 	 * @return il carattere di controllo
 	 */
-	public static String generaCIN(String cfNonVerificato) 
+	public static String generaCIN(String cfNonVerificato)
 	{
 		int somma = 0;
 		int resto = 0;
@@ -338,16 +335,16 @@ public class CodiceFiscale {
 		resto = somma % LUNGHEZZA_VALORI_CIN;
 		return String.valueOf((char)(resto + 65));
 	}
-	
+
 	public static String generaCF(Persona cittadino)
 	{
 		String cf = codificaCognome(cittadino.getCognome()) +
 				codificaNome(cittadino.getNome()) + codificaAnno(cittadino.getAnnnoNascita())
-				+ codificaMese(cittadino.getMeseNascita()) 
+				+ codificaMese(cittadino.getMeseNascita())
 				+ codificaGiorno(cittadino.getGiornoNascita(), cittadino.getSesso())
 				+ cittadino.getLuogoNascita().getCodice();
 		cf = cf + generaCIN(cf);
 		return cf;
 	}
-		
+
 }
